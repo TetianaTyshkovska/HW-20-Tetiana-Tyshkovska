@@ -1,0 +1,699 @@
+{
+	"info": {
+		"_postman_id": "b0ff3ba6-1f9e-43d9-be64-006062060e43",
+		"name": "HW, lesson 19, Tetiana Tyshkovska",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26168522"
+	},
+	"item": [
+		{
+			"name": "Create user with valid datas",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Successful POST request\"] = responseCode.code === 200\r",
+							"tests[\"Response time is less than 2000 ms\"] = responseTime <2000\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"Oleksandra\",\r\n    \"age\": 21,\r\n    \"gender\": \"female\",\r\n    \"city\": \"Lviv\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Path to users}}",
+					"host": [
+						"{{Path to users}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create user with valid datas without city",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"City is undefined\", () => {\r",
+							"  const responseJson = pm.response.json();\r",
+							"  pm.expect(responseJson.city).to.eql(\"undefined\");\r",
+							"});\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"Oleksandra\",\r\n    \"age\": 21,\r\n    \"gender\": \"female\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Path to users}}",
+					"host": [
+						"{{Path to users}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create user with <6 letters in the name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"pm.test(\"Error at name\",() => {\r",
+							"  pm.expect(pm.response.text()).to.include(\"name is invalid\");\r",
+							"});\r",
+							"tests[\"Response time is less than 500 ms\"] = responseTime <500"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"Veles\",\r\n    \"age\": 54,\r\n    \"gender\": \"male\",\r\n    \"city\": \"Colombo\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Path to users}}",
+					"host": [
+						"{{Path to users}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create user with >20 letters in the name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"pm.test(\"Error at name\",() => {\r",
+							"  pm.expect(pm.response.text()).to.include(\"name is invalid\");\r",
+							"});\r",
+							"tests[\"Response time is less than 700 ms\"] = responseTime <700"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"Venkatanarasimharajuvaripeta\",\r\n    \"age\": 21,\r\n    \"gender\": \"female\",\r\n    \"city\": \"Andhra Pradesh\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Path to users}}",
+					"host": [
+						"{{Path to users}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create user with age >100",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"pm.test(\"Error at age\",() => {\r",
+							"  pm.expect(pm.response.text()).to.include(\"age is invalid\");\r",
+							"});\r",
+							"tests[\"Response time is less than 500 ms\"] = responseTime <500"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"Oleksandra\",\r\n    \"age\": 101,\r\n    \"gender\": \"female\",\r\n    \"city\": \"Lviv\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Path to users}}",
+					"host": [
+						"{{Path to users}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create user with age <1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"pm.test(\"Error at age\",() => {\r",
+							"  pm.expect(pm.response.text()).to.include(\"age is invalid\");\r",
+							"});\r",
+							"tests[\"Response time is less than 500 ms\"] = responseTime <500"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"Oleksandra\",\r\n    \"age\": 0,\r\n    \"gender\": \"female\",\r\n    \"city\": \"Lviv\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Path to users}}",
+					"host": [
+						"{{Path to users}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create user with numerics in gender",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"pm.test(\"Error at gender\",() => {\r",
+							"  pm.expect(pm.response.text()).to.include(\"gender is invalid\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"Oleksandra\",\r\n    \"age\": 21,\r\n    \"gender\": \"010101\",\r\n    \"city\": \"Lviv\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Path to users}}",
+					"host": [
+						"{{Path to users}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check info about created user with valid request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Response time is less than or eql 1000 ms\"] = responseTime <=1000\r",
+							"tests[\"Status code is 200\"] = codeStatus=200"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Path to users}}?id=ce16a86e-48f7-4cab-8c91-e648eb759946",
+					"host": [
+						"{{Path to users}}"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "ce16a86e-48f7-4cab-8c91-e648eb759946"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check info without user ID in request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Response time is less than 500 ms\"] = responseTime <500\r",
+							"tests[\"Status code is 400\"] = codeStatus=400\r",
+							"pm.test(\"No parameters in request\",() => {\r",
+							"  pm.expect(pm.response.text()).to.include(\"No parameters received in request\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Path to users}}",
+					"host": [
+						"{{Path to users}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check info with invalid user ID in request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Response time is less than 1000 ms\"] = responseTime <1000\r",
+							"tests[\"Status code is 200\"] = codeStatus=200\r",
+							"pm.test(\"No users found at body response\",() => {\r",
+							"  pm.expect(pm.response.text()).to.include(\"No users found\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Path to users}}?id=kf45644sasdvsuvg25464ffvd",
+					"host": [
+						"{{Path to users}}"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "kf45644sasdvsuvg25464ffvd"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update name of user on valid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Response time is less than 1000 ms\"] = responseTime <1000\r",
+							"tests[\"Status code is 200\"] = codeStatus=200"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"Tetiana\",\r\n    \"age\": 21,\r\n    \"gender\": \"female\",\r\n    \"city\": \"Lviv\",\r\n    \"id\": \"ce16a86e-48f7-4cab-8c91-e648eb759946\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Path to users}}",
+					"host": [
+						"{{Path to users}}"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "{{Valid ID}}",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update gender on valid \"male\"",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Response time is less than 1000 ms\"] = responseTime <1000\r",
+							"tests[\"Status code is 200\"] = codeStatus=200"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"Tetiana\",\r\n    \"age\": 21,\r\n    \"gender\": \"male\",\r\n    \"city\": \"Lviv\",\r\n    \"id\": \"ce16a86e-48f7-4cab-8c91-e648eb759946\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Path to users}}",
+					"host": [
+						"{{Path to users}}"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "{{Valid ID}}",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update age on valid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Response time is less than 2000 ms\"] = responseTime <2000\r",
+							"tests[\"Status code is 200\"] = codeStatus=200"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"Tetiana\",\r\n    \"age\": 48,\r\n    \"gender\": \"male\",\r\n    \"city\": \"Lviv\",\r\n    \"id\": \"ce16a86e-48f7-4cab-8c91-e648eb759946\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Path to users}}",
+					"host": [
+						"{{Path to users}}"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "{{Valid ID}}",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update user without city",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Response time is less than 1000 ms\"] = responseTime <1000\r",
+							"tests[\"Status code is 200\"] = codeStatus=200"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"Tetiana\",\r\n    \"age\": 48,\r\n    \"gender\": \"male\",\r\n    \"id\": \"ce16a86e-48f7-4cab-8c91-e648eb759946\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Path to users}}",
+					"host": [
+						"{{Path to users}}"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "{{Valid ID}}",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete with valid user ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Response time is less than 2000 ms\"] = responseTime <2000\r",
+							"tests[\"Status code is 200\"] = codeStatus=200\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Path to users}}?id=63819a2d-f080-40c6-8de5-f4713f43d482",
+					"host": [
+						"{{Path to users}}"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "63819a2d-f080-40c6-8de5-f4713f43d482"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete with no user ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Response time is less than 500 ms\"] = responseTime <500\r",
+							"tests[\"Status code is 400\"] = codeStatus=400\r",
+							"pm.test(\"No parameters received in request\",() => {\r",
+							"  pm.expect(pm.response.text()).to.include(\"No parameters received in request\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{Path to users}}",
+					"host": [
+						"{{Path to users}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete with invalid user ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Response time is less than 1000 ms\"] = responseTime <1000\r",
+							"tests[\"Status code is 200\"] = codeStatus=200\r",
+							"pm.test(\"No user found\",() => {\r",
+							"  pm.expect(pm.response.text()).to.include(\"No user found\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Path to users}}?id={{Invalid user ID}}",
+					"host": [
+						"{{Path to users}}"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "{{Invalid user ID}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "Path to users",
+			"value": "https://em.staging.api.onereach.ai/http/1b3bebb7-e882-4f1e-a74b-ee381bfa69d6/users"
+		},
+		{
+			"key": "Valid ID",
+			"value": "ce16a86e-48f7-4cab-8c91-e648eb759946"
+		},
+		{
+			"key": "ID for DELETE",
+			"value": "2c5702d2-7084-4098-825d-fb23445cc9c7"
+		},
+		{
+			"key": "Invalid user ID",
+			"value": "kf45644sasdvsuvg25464ffvd"
+		}
+	]
+}
